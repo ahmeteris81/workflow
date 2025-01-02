@@ -1,0 +1,27 @@
+name: Ticimax to Airtable Sync
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Her gün gece yarısı çalışır
+  workflow_dispatch:      # Manuel tetikleme için
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          
+      - name: Install Dependencies
+        run: npm install axios airtable
+
+      - name: Run Sync Script
+        env:
+          AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+        run: node sync.js
