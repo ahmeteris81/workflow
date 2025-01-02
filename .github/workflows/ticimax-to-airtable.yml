@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
       
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -18,10 +19,13 @@ jobs:
           node-version: '16'
           
       - name: Install Dependencies
-        run: npm install axios airtable
-
+        run: |
+          npm init -y
+          npm install axios airtable xml2js
+          
       - name: Run Sync Script
         env:
           AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
         run: node sync.js
+        working-directory: ${{ github.workspace }}
