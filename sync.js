@@ -3,8 +3,8 @@ const Airtable = require('airtable');
 const xml2js = require('xml2js');
 
 // Airtable configuration
-const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY })
-    .base(process.env.AIRTABLE_BASE_ID);
+const base = new Airtable({ apiKey: 'patnBoLptyFtx2IPG.0770c07bded00c28996f835e34bcbf705025ef6e6434a8b0be98a636662fd2cd' })
+    .base('appi926ZAhCCMSJJZ');
 
 // SOAP request configuration
 const SOAP_URL = 'https://www.nemodabutik.com/Servis/UrunServis.svc?wsdl';
@@ -58,15 +58,15 @@ async function syncProducts() {
         // Her ürün için Airtable'a kayıt ekle
         for (const product of products) {
             try {
-                const createdRecord = await base('Ürün Listesi').create({
+                await base('Ürün Listesi').create({
                     "Ürün KartID": product.a_ID,
                     "Ürün Adı": product.a_UrunAdi,
                     "Fiyatı": product.a_Varyasyonlar?.a_Varyasyon?.a_SatisFiyati || "",
                     "URL": product.a_UrunSayfaAdresi || ""
                 });
-                console.log(`Ürün eklendi: ${product.a_UrunAdi}`, createdRecord.getId());
+                console.log(`Ürün eklendi: ${product.a_UrunAdi}`);
             } catch (err) {
-                console.error(`Ürün eklenirken hata: ${err.message}`, product);
+                console.error(`Ürün eklenirken hata: ${err.message}`);
             }
         }
 
