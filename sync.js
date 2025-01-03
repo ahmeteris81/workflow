@@ -58,15 +58,15 @@ async function syncProducts() {
         // Her ürün için Airtable'a kayıt ekle
         for (const product of products) {
             try {
-                await base('Ürün Listesi').create({
+                const createdRecord = await base('Ürün Listesi').create({
                     "Ürün KartID": product.a_ID,
                     "Ürün Adı": product.a_UrunAdi,
                     "Fiyatı": product.a_Varyasyonlar?.a_Varyasyon?.a_SatisFiyati || "",
                     "URL": product.a_UrunSayfaAdresi || ""
                 });
-                console.log(`Ürün eklendi: ${product.a_UrunAdi}`);
+                console.log(`Ürün eklendi: ${product.a_UrunAdi}`, createdRecord.getId());
             } catch (err) {
-                console.error(`Ürün eklenirken hata: ${err.message}`);
+                console.error(`Ürün eklenirken hata: ${err.message}`, product);
             }
         }
 
